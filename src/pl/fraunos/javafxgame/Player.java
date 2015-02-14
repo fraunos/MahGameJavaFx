@@ -1,3 +1,4 @@
+package pl.fraunos.javafxgame;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 
