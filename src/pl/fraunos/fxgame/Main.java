@@ -22,8 +22,8 @@ public class Main extends Application {
 	static Group group;
 	static Player player;
 	static Circle circle;
-	final static int sizeX = 200;
-	final static int sizeY = 200;
+	final static int sizeX = 600;
+	final static int sizeY = 600;
 	static AudioClip ac;
 
 	Timeline time = new Timeline(60, new KeyFrame(Duration.millis(1000 / 60), e -> {
@@ -43,7 +43,7 @@ public class Main extends Application {
 		circle = new Circle(random.nextDouble() * sizeX, random.nextDouble() * sizeY, 15);
 		player = new Player(sizeX / 2, sizeY / 2);
 		group = new Group(player, circle);
-		scene = new Scene(group, 400, 400, true, SceneAntialiasing.DISABLED);
+		scene = new Scene(group, sizeX, sizeY, true, SceneAntialiasing.DISABLED);
 		scene.setFill(Color.GRAY);
 		time.setCycleCount(Animation.INDEFINITE);
 		scene.setOnKeyPressed(e -> {
@@ -53,6 +53,7 @@ public class Main extends Application {
 			kp.process(e.getCode(), false);
 		});
 		time.play();
+		primaryStage.setOpacity(0.4);
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
