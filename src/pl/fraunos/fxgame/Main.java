@@ -27,11 +27,10 @@ public class Main extends Application {
 	static double mouseX;
 	static double mouseY;
 
-	Timeline time = new Timeline(60, new KeyFrame(Duration.millis(1000 / 60),
-			e -> {
-				updateWorld();
+	Timeline time = new Timeline(60, new KeyFrame(Duration.millis(1000 / 60), e -> {
+		updateWorld();
 
-			}));
+	}));
 
 	public static void main(String[] args) {
 		ac = new AudioClip(Main.class.getResource("res/dobra.mp3").toString());
@@ -51,6 +50,7 @@ public class Main extends Application {
 		scene.setOnMouseMoved(e -> {
 			mouseX = e.getX();
 			mouseY = e.getY();
+
 		});
 		time.setCycleCount(Animation.INDEFINITE);
 		scene.setOnKeyPressed(e -> {
@@ -60,7 +60,7 @@ public class Main extends Application {
 			kp.process(e.getCode(), false);
 		});
 		time.play();
-		primaryStage.setOpacity(0.5);
+		// primaryStage.setOpacity(0.5);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
