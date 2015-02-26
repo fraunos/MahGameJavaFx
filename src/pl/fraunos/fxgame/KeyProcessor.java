@@ -6,6 +6,7 @@ public class KeyProcessor {
 	boolean up, down, left, right;
 
 	public void process(KeyCode code, boolean isDown) {
+
 		if (code == KeyCode.W)
 			up = isDown;
 		if (code == KeyCode.S)
