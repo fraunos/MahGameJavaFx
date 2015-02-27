@@ -9,8 +9,6 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -44,16 +42,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setResizable(false);
+
 		primaryStage.setTitle(TITLE);
 		random = new Random();
 		player = new Player(sizeX / 2, sizeY / 2);
-		Image map = SpriteLoader.getSprite(4, 4);
-		group = new Group(new ImageView(map) {
-			{
-				setScaleX(4);
-				setScaleY(4);
-			}
-		}, player);
+		group = new Group(player);
 		scene = new Scene(group, sizeX, sizeY, true, SceneAntialiasing.DISABLED);
 		scene.setFill(Color.GRAY);
 		scene.setOnMouseMoved(e -> {
@@ -64,12 +57,9 @@ public class Main extends Application {
 		time.setCycleCount(Animation.INDEFINITE);
 		scene.setOnKeyPressed(e -> {
 			kp.process(e.getCode(), true);
-			player.isMoving = true;
 		});
 		scene.setOnKeyReleased(e -> {
 			kp.process(e.getCode(), false);
-			player.isMoving = false;
-
 		});
 		time.play();
 		// primaryStage.setOpacity(0.5);
