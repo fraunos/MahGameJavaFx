@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -66,9 +67,15 @@ public class Main extends Application {
 		time.setCycleCount(Animation.INDEFINITE);
 		scene.setOnKeyPressed(e -> {
 			kp.process(e.getCode(), true);
+			if (e.getCode() == KeyCode.SPACE) {
+				System.out.println(gameTime);
+			}
 		});
 		scene.setOnKeyReleased(e -> {
 			kp.process(e.getCode(), false);
+		});
+		scene.setOnKeyTyped(e -> {
+
 		});
 		time.play();
 		primaryStage.setScene(scene);
