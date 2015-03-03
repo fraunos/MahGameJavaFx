@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 public class Player extends ImageView {
 	double x, y;
 	double tempX, tempY;
+	double deltaX, deltaY;
 	int speed = 2;
 	double direction = 0;
 	boolean isMoving = false;
@@ -32,8 +33,13 @@ public class Player extends ImageView {
 			x += speed * Math.sin(Math.toRadians(direction));
 		}
 
-		if (isMoving) {
+		if (isMoving && Main.kp.up) {
 			if (Main.gameTime % 10 == 0) {
+				currentState++;
+				currentState %= 2;
+			}
+		} else if (isMoving) {
+			if (Main.gameTime % 20 == 0) {
 				currentState++;
 				currentState %= 2;
 			}
@@ -43,9 +49,9 @@ public class Player extends ImageView {
 		checkMovement();
 		updateSprite();
 
-		setX(x);
-		setY(y);
-		direction = Math.toDegrees(Math.atan2(mouseY - getCenterY(y), mouseX - getCenterX(x))) + 180;
+		// setX(x);
+		// setY(y);
+		direction = Math.toDegrees(Math.atan2(mouseY - Main.sizeY / 2, mouseX - Main.sizeX / 2)) + 180;
 		setRotate(direction - 90);
 	}
 
@@ -62,6 +68,8 @@ public class Player extends ImageView {
 	Player(int x, int y) {
 		setScaleX(SpriteLoader.scale);
 		setScaleY(SpriteLoader.scale);
+		setX(x - 128);
+		setY(y - 128);
 		setImage(image);
 		this.x = x;
 		this.y = y;
@@ -85,6 +93,8 @@ public class Player extends ImageView {
 		} else {
 			isMoving = true;
 		}
+		deltaX = x - tempX;
+		deltaY = y - tempY;
 		tempX = x;
 		tempY = y;
 	}
