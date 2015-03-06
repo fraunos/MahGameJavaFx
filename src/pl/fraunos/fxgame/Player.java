@@ -2,6 +2,7 @@ package pl.fraunos.fxgame;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
 
 public class Player extends ImageView {
 	double x, y;
@@ -12,6 +13,7 @@ public class Player extends ImageView {
 	boolean isMoving = false;
 	int currentState = 1;
 	Image image = SpriteLoader.getSprite(currentState, 0);
+	AudioClip[] ac = { new AudioClip(Main.class.getResource("res/kroki.mp3").toString()), new AudioClip(Main.class.getResource("res/kroki-2.mp3").toString()) };
 
 	public void update(double mouseX, double mouseY) {
 
@@ -26,7 +28,6 @@ public class Player extends ImageView {
 		if (Main.kp.left) {
 			y += speed * Math.cos(Math.toRadians(direction));
 			x -= speed * Math.sin(Math.toRadians(direction));
-
 		}
 		if (Main.kp.right) {
 			y -= speed * Math.cos(Math.toRadians(direction));
@@ -37,11 +38,13 @@ public class Player extends ImageView {
 			if (Main.gameTime % 10 == 0) {
 				currentState++;
 				currentState %= 2;
+				playSound(currentState);
 			}
 		} else if (isMoving) {
 			if (Main.gameTime % 20 == 0) {
 				currentState++;
 				currentState %= 2;
+				playSound(currentState);
 			}
 		} else {
 			currentState = 4;
@@ -97,6 +100,11 @@ public class Player extends ImageView {
 		deltaY = y - tempY;
 		tempX = x;
 		tempY = y;
+	}
+
+	private void playSound(int x) {
+		ac[x % 2].play();
+
 	}
 
 }

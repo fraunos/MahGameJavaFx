@@ -21,8 +21,8 @@ public class MainScreen extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		Button btn = new Button("Do³¹cz do serwera");
-		Button btn1 = new Button("Za³ó¿ serwer");
+		Button btn = new Button("DoÅ‚Ä…cz do serwera");
+		Button btn1 = new Button("ZaÅ‚Ã³Å¼ serwer");
 		Button btn2 = new Button("Ustawienia");
 		btn.setOnAction(e -> {
 			System.out.println("ehe");

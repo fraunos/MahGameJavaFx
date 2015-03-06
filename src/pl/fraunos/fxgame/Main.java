@@ -39,8 +39,6 @@ public class Main extends Application {
 	}));
 
 	public static void main(String[] args) {
-		// ac = new
-		// AudioClip(Main.class.getResource("res/dobra.mp3").toString());
 		launch(args);
 
 	}
@@ -49,7 +47,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setResizable(false);
 		primaryStage.setTitle(TITLE);
-
 		random = new Random();
 		player = new Player(sizeX / 2, sizeY / 2);
 		mapTiles = new Group();
