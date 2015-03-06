@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.AudioClip;
@@ -32,9 +33,11 @@ public class Main extends Application {
 	static double mouseY;
 	static int gameTime = 0;
 	static WorldMap map = new WorldMap();
+	Label xyCoords = new Label();
 
 	Timeline time = new Timeline(60, new KeyFrame(Duration.millis(1000 / 60), e -> {
 		updateWorld();
+		xyCoords.setText(player.x + " " + player.y);
 		gameTime++;
 	}));
 
@@ -45,13 +48,17 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		xyCoords.setTranslateX(200);
+		xyCoords.setTranslateY(20);
+		xyCoords.setScaleX(2);
+		xyCoords.setScaleY(2);
 		primaryStage.setResizable(false);
 		primaryStage.setTitle(TITLE);
 		random = new Random();
-		player = new Player(sizeX / 2, sizeY / 2);
+		player = new Player(0, 0);
 		mapTiles = new Group();
 		entities = new Group();
-		group = new Group(mapTiles, entities);
+		group = new Group(mapTiles, entities, xyCoords);
 		scene = new Scene(group, sizeX, sizeY, true, SceneAntialiasing.DISABLED);
 		scene.setFill(Color.GRAY);
 		drawMap();
@@ -79,20 +86,9 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
-	// public static boolean checkCollision(Player player, Circle circle) {
-	// double totalRadius = player.getRadius() + circle.getRadius();
-	// double distance = Math.hypot(player.getCenterX() -
-	// circle.getCenterX(),player.getCenterY() - circle.getCenterY());
-	// return distance < totalRadius;
-	// }
-
 	public static void updateWorld() {
 		player.update(mouseX, mouseY);
 		updateMap();
-		// if (checkCollision(player, circle)) {
-		// circle.setCenterX(random.nextDouble() * sizeX);
-		// circle.setCenterY(random.nextDouble() * sizeY);
-		// }
 	}
 
 	public void drawMap() {
@@ -106,17 +102,7 @@ public class Main extends Application {
 	}
 
 	public static void updateMap() {
-		mapTiles.setTranslateX(mapTiles.getTranslateX() - player.deltaX);
-		mapTiles.setTranslateY(mapTiles.getTranslateY() - player.deltaY);
-		// for (int i = 0; i < map.map.length; i++) {
-		// for (int j = 0; j < map.map.length; j++) {
-		// ((ImageView) mapTiles.getChildren().get(j + 10 *
-		// i)).setX(((ImageView)
-		// mapTiles.getChildren().get(j + 10 * i)).getX() - player.deltaX);
-		// ((ImageView) mapTiles.getChildren().get(j + 10 *
-		// i)).setY(((ImageView)
-		// mapTiles.getChildren().get(j + 10 * i)).getY() - player.deltaY);
-		// }
-		// }
+		mapTiles.setTranslateX(sizeX / 2 - player.x);
+		mapTiles.setTranslateY(sizeY / 2 - player.y);
 	}
 }

@@ -5,55 +5,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 
 public class Player extends ImageView {
+	final int MAX_SPEED = 5;
+
 	double x, y;
-	double tempX, tempY;
-	double deltaX, deltaY;
-	int speed = 2;
+	int speed = 0;
 	double direction = 0;
-	boolean isMoving = false;
-	int currentState = 1;
-	Image image = SpriteLoader.getSprite(currentState, 0);
+	int currentState = 0;
+	Image image;
 	AudioClip[] ac = { new AudioClip(Main.class.getResource("res/kroki.mp3").toString()), new AudioClip(Main.class.getResource("res/kroki-2.mp3").toString()) };
 
 	public void update(double mouseX, double mouseY) {
+		movePlayer();
 
-		if (Main.kp.up) {
-			y -= 2 * speed * Math.sin(Math.toRadians(direction));
-			x -= 2 * speed * Math.cos(Math.toRadians(direction));
-		}
-		if (Main.kp.down) {
-			y += speed * Math.sin(Math.toRadians(direction));
-			x += speed * Math.cos(Math.toRadians(direction));
-		}
-		if (Main.kp.left) {
-			y += speed * Math.cos(Math.toRadians(direction));
-			x -= speed * Math.sin(Math.toRadians(direction));
-		}
-		if (Main.kp.right) {
-			y -= speed * Math.cos(Math.toRadians(direction));
-			x += speed * Math.sin(Math.toRadians(direction));
-		}
-
-		if (isMoving && Main.kp.up) {
-			if (Main.gameTime % 10 == 0) {
-				currentState++;
-				currentState %= 2;
-				playSound(currentState);
-			}
-		} else if (isMoving) {
-			if (Main.gameTime % 20 == 0) {
-				currentState++;
-				currentState %= 2;
-				playSound(currentState);
-			}
-		} else {
-			currentState = 4;
-		}
-		checkMovement();
 		updateSprite();
-
-		// setX(x);
-		// setY(y);
+		speed = 0;
 		direction = Math.toDegrees(Math.atan2(mouseY - Main.sizeY / 2, mouseX - Main.sizeX / 2)) + 180;
 		setRotate(direction - 90);
 	}
@@ -69,37 +34,27 @@ public class Player extends ImageView {
 	}
 
 	Player(int x, int y) {
-		setScaleX(SpriteLoader.scale);
-		setScaleY(SpriteLoader.scale);
-		setX(x - 128);
-		setY(y - 128);
-		setImage(image);
 		this.x = x;
 		this.y = y;
+		setScaleX(SpriteLoader.scale);
+		setScaleY(SpriteLoader.scale);
+		setX(Main.sizeX / 2 - 128);
+		setY(Main.sizeY / 2 - 128);
+		setImage(image);
+
 	}
 
 	private void updateSprite() {
-		// changeSprite();
-		setImage(SpriteLoader.getSprite(currentState, 0));
-	}
-
-	// private void changeSprite() {
-	// if (Main.gameTime % 10 == 0) {
-	// currentState++;
-	// currentState %= 2;
-	// }
-	// }
-
-	private void checkMovement() {
-		if (x == tempX && y == tempY) {
-			isMoving = false;
+		if (speed > 0) {
+			if (Main.gameTime % (50 / speed) == 0) {
+				currentState++;
+				currentState %= 2;
+				playSound(currentState);
+			}
 		} else {
-			isMoving = true;
+			currentState = 4;
 		}
-		deltaX = x - tempX;
-		deltaY = y - tempY;
-		tempX = x;
-		tempY = y;
+		setImage(SpriteLoader.getSprite(currentState, 0));
 	}
 
 	private void playSound(int x) {
@@ -107,4 +62,28 @@ public class Player extends ImageView {
 
 	}
 
+	private void movePlayer() {
+
+		if (Main.kp.up) {
+			speed = MAX_SPEED;
+			y -= speed * Math.sin(Math.toRadians(direction));
+			x -= speed * Math.cos(Math.toRadians(direction));
+		}
+
+		if (Main.kp.left) {
+			speed = MAX_SPEED;
+			y += speed * Math.cos(Math.toRadians(direction));
+			x -= speed * Math.sin(Math.toRadians(direction));
+		}
+		if (Main.kp.right) {
+			speed = MAX_SPEED;
+			y -= speed * Math.cos(Math.toRadians(direction));
+			x += speed * Math.sin(Math.toRadians(direction));
+		}
+		if (Main.kp.down) {
+			speed = MAX_SPEED / 2;
+			y += speed * Math.sin(Math.toRadians(direction));
+			x += speed * Math.cos(Math.toRadians(direction));
+		}
+	}
 }
