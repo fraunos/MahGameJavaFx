@@ -65,25 +65,23 @@ public class Player extends ImageView {
 	private void movePlayer() {
 
 		if (Main.kp.up) {
-			speed = MAX_SPEED;
-			y -= speed * Math.sin(Math.toRadians(direction));
-			x -= speed * Math.cos(Math.toRadians(direction));
+			moveInSpecifiedDirection(direction);
 		}
-
 		if (Main.kp.left) {
-			speed = MAX_SPEED;
-			y += speed * Math.cos(Math.toRadians(direction));
-			x -= speed * Math.sin(Math.toRadians(direction));
+			moveInSpecifiedDirection(direction - 90);
 		}
 		if (Main.kp.right) {
-			speed = MAX_SPEED;
-			y -= speed * Math.cos(Math.toRadians(direction));
-			x += speed * Math.sin(Math.toRadians(direction));
+			moveInSpecifiedDirection(direction + 90);
 		}
 		if (Main.kp.down) {
-			speed = MAX_SPEED / 2;
-			y += speed * Math.sin(Math.toRadians(direction));
-			x += speed * Math.cos(Math.toRadians(direction));
+			moveInSpecifiedDirection(direction + 180);
 		}
 	}
+
+	private void moveInSpecifiedDirection(double direction) {
+		speed = MAX_SPEED;
+		y -= speed * Math.sin(Math.toRadians(direction));
+		x -= speed * Math.cos(Math.toRadians(direction));
+	}
+
 }

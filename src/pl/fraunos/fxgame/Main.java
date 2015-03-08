@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	String TITLE = "Lelod";
+	String TITLE = "TempNameGame";
 	static KeyProcessor kp = new KeyProcessor();
 	static Random random;
 	static Scene scene;
@@ -37,7 +37,7 @@ public class Main extends Application {
 
 	Timeline time = new Timeline(60, new KeyFrame(Duration.millis(1000 / 60), e -> {
 		updateWorld();
-		xyCoords.setText(player.x + " " + player.y);
+		xyCoords.setText((int) player.x + " " + (int) player.y);
 		gameTime++;
 	}));
 
@@ -92,11 +92,12 @@ public class Main extends Application {
 	}
 
 	public void drawMap() {
-		for (int i = 0; i < map.map.length; i++) {
-			for (int j = 0; j < map.map.length; j++) {
-				mapTiles.getChildren().addAll(new ImageView(SpriteLoader.getSprite(4, 4)));
-				((ImageView) mapTiles.getChildren().get(j + 10 * i)).setX(j * (SpriteLoader.spriteSize - 1));
-				((ImageView) mapTiles.getChildren().get(j + 10 * i)).setY(i * (SpriteLoader.spriteSize - 1));
+		for (int i = 0; i < map.MAP_SIZE; i++) {
+			for (int j = 0; j < map.MAP_SIZE; j++) {
+				System.out.print(map.map[j + map.MAP_SIZE * i] + ",");
+				mapTiles.getChildren().add(new ImageView(SpriteLoader.getSprite(map.map[j + map.MAP_SIZE * i], 4)));
+				((ImageView) mapTiles.getChildren().get(j + map.MAP_SIZE * i)).setX(j * (SpriteLoader.spriteSize - 1));
+				((ImageView) mapTiles.getChildren().get(j + map.MAP_SIZE * i)).setY(i * (SpriteLoader.spriteSize - 1));
 			}
 		}
 	}
